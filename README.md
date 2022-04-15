@@ -26,5 +26,8 @@ Since the Spring Boot backend microservice is a RESTful API and it abstracts the
 * Create Password Screen: When the new user clicks on the unique link to activate and create a password for their account, they are redirected to this create password screen. They will enter their new password and click on the activate button.
 * The user should be able to log in after activating their account.
 
+Commands
+========
+
 
 
