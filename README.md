@@ -25,3 +25,6 @@ Since the Spring Boot backend microservice is a RESTful API and it abstracts the
 * Create User Screen: This will be a form that takes the information aligned with the USER entity in the database (username, email, full name, and the role that this user should be assigned). On submit, the CREATE API endpoint will be called which sends the new user an email for them to create a password.
 * Create Password Screen: When the new user clicks on the unique link to activate and create a password for their account, they are redirected to this create password screen. They will enter their new password and click on the activate button.
 * The user should be able to log in after activating their account.
+
+
+
