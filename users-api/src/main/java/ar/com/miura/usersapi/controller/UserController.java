@@ -8,17 +8,17 @@ public class UserController {
     public UserController(ar.com.miura.usersapi.service.UserService userService) {
         this.userService = userService;
     }
-    @org.springframework.web.bind.annotation.GetMapping("/users/{id}")
+    @org.springframework.web.bind.annotation.GetMapping("/v1/users/{id}")
     public ar.com.miura.usersapi.dto.UserDto getUser(@org.springframework.web.bind.annotation.PathVariable("id") String id) {
         return userService.findOne(id);
     }
 
-    @org.springframework.web.bind.annotation.GetMapping("/users")
+    @org.springframework.web.bind.annotation.GetMapping("/v1/users")
     public java.util.List<ar.com.miura.usersapi.dto.UserDto> findAll() {
         return userService.findAll();
     }
 
-    @org.springframework.web.bind.annotation.PostMapping("/users")
+    @org.springframework.web.bind.annotation.PostMapping("/v1/users")
     public org.springframework.http.ResponseEntity<Object> createUser(@javax.validation.Valid @org.springframework.web.bind.annotation.RequestBody ar.com.miura.usersapi.dto.UserInputDto inputDto) {
         ar.com.miura.usersapi.dto.UserDto userDto = userService.save(inputDto);
         java.net.URI location = org.springframework.web.servlet.support.ServletUriComponentsBuilder
@@ -28,7 +28,7 @@ public class UserController {
         return org.springframework.http.ResponseEntity.created(location).build();
     }
 
-    @org.springframework.web.bind.annotation.DeleteMapping("/users/{id}")
+    @org.springframework.web.bind.annotation.DeleteMapping("/v1/users/{id}")
     public void deleteUser(@org.springframework.web.bind.annotation.PathVariable("id") String id) {
         userService.delete(id);
     }
