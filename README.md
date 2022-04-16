@@ -29,5 +29,8 @@ Since the Spring Boot backend microservice is a RESTful API and it abstracts the
 Commands
 ========
 
+* Go to the folder *docker* and run the command :
+`docker-compose up`
 
-
+* When you aren't using anymore the infrastructure type the command :
+`docker-compose down`
