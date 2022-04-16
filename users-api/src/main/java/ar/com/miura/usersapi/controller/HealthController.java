@@ -1,11 +1,13 @@
 package ar.com.miura.usersapi.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@org.springframework.web.bind.annotation.RestController
+@RestController
 public class HealthController {
-    @org.springframework.web.bind.annotation.GetMapping("/health")
+    @GetMapping("/health")
     public String getStatus() {
         log.info("/health");
         return "ok";

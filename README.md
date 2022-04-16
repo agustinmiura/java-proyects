@@ -25,3 +25,18 @@ Since the Spring Boot backend microservice is a RESTful API and it abstracts the
 * Create User Screen: This will be a form that takes the information aligned with the USER entity in the database (username, email, full name, and the role that this user should be assigned). On submit, the CREATE API endpoint will be called which sends the new user an email for them to create a password.
 * Create Password Screen: When the new user clicks on the unique link to activate and create a password for their account, they are redirected to this create password screen. They will enter their new password and click on the activate button.
 * The user should be able to log in after activating their account.
+
+Commands
+========
+
+* Go to the folder *docker* and run the command :
+`docker-compose up`
+
+* When you aren't using anymore the infrastructure type the command :
+`docker-compose down`
+
+TODO
+====
+
+* Fix the UUID mapping for the table entities .
+* data.sql to be executed and load all the data.
