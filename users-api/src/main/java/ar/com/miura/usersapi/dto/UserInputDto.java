@@ -1,23 +1,30 @@
 package ar.com.miura.usersapi.dto;
 
-@lombok.Data
-@lombok.AllArgsConstructor
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+@Data
+@AllArgsConstructor
 public class UserInputDto {
 
 
-    @javax.validation.constraints.Size(min = 1, max = 50, message = "Username must be between 2 and 50 characters")
+    @Size(min = 1, max = 50, message = "Username must be between 2 and 50 characters")
     private String username;
 
-    @javax.validation.constraints.Size(min = 1, max = 50, message = "Full must be between 2 and 50 characters")
+    @Size(min = 1, max = 50, message = "Full must be between 2 and 50 characters")
     private String fullName;
 
-    @javax.validation.constraints.NotEmpty
+    @NotEmpty
     private String role;
 
-    @javax.validation.constraints.Email(message = "Email must be valid")
+    @Email(message = "Email must be valid")
     private String emailAddress;
 
-    @javax.validation.constraints.NotEmpty
+    @NotEmpty
     private String status;
 
 }
