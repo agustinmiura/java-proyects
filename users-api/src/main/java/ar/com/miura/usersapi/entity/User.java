@@ -1,7 +1,13 @@
 package ar.com.miura.usersapi.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 @javax.persistence.Entity
 @javax.persistence.Table(name="user")
+@lombok.Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @javax.persistence.Id

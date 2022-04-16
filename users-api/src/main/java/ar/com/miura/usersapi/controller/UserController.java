@@ -1,35 +1,52 @@
 package ar.com.miura.usersapi.controller;
 
-@lombok.extern.slf4j.Slf4j
-@org.springframework.web.bind.annotation.RestController
+import ar.com.miura.usersapi.dto.UserDto;
+import ar.com.miura.usersapi.dto.UserInputDto;
+import ar.com.miura.usersapi.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.validation.Valid;
+import java.net.URI;
+
+@Slf4j
+@RestController
 public class UserController {
-    private ar.com.miura.usersapi.service.UserService userService;
-    @org.springframework.beans.factory.annotation.Autowired
-    public UserController(ar.com.miura.usersapi.service.UserService userService) {
+    private UserService userService;
+    @Autowired
+    public UserController(UserService userService) {
         this.userService = userService;
     }
-    @org.springframework.web.bind.annotation.GetMapping("/v1/users/{id}")
-    public ar.com.miura.usersapi.dto.UserDto getUser(@org.springframework.web.bind.annotation.PathVariable("id") String id) {
+    @GetMapping("/v1/users/{id}")
+    public UserDto getUser(@PathVariable("id") String id) {
         return userService.findOne(id);
     }
 
-    @org.springframework.web.bind.annotation.GetMapping("/v1/users")
-    public java.util.List<ar.com.miura.usersapi.dto.UserDto> findAll() {
+    @GetMapping("/v1/users")
+    public java.util.List<UserDto> findAll() {
         return userService.findAll();
     }
 
-    @org.springframework.web.bind.annotation.PostMapping("/v1/users")
-    public org.springframework.http.ResponseEntity<Object> createUser(@javax.validation.Valid @org.springframework.web.bind.annotation.RequestBody ar.com.miura.usersapi.dto.UserInputDto inputDto) {
-        ar.com.miura.usersapi.dto.UserDto userDto = userService.save(inputDto);
-        java.net.URI location = org.springframework.web.servlet.support.ServletUriComponentsBuilder
+    @PostMapping("/v1/users")
+    public ResponseEntity<Object> createUser(@Valid @RequestBody UserInputDto inputDto) {
+        UserDto userDto = userService.save(inputDto);
+        URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(userDto.getId()).toUri();
-        return org.springframework.http.ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).build();
     }
 
-    @org.springframework.web.bind.annotation.DeleteMapping("/v1/users/{id}")
-    public void deleteUser(@org.springframework.web.bind.annotation.PathVariable("id") String id) {
+    @DeleteMapping("/v1/users/{id}")
+    public void deleteUser(@PathVariable("id") String id) {
         userService.delete(id);
     }
 

@@ -1,7 +1,10 @@
 package ar.com.miura.usersapi.misc;
 
-@lombok.AllArgsConstructor
-@lombok.Data
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@AllArgsConstructor
+@Data
 public class ExceptionResponse {
     private java.time.LocalDateTime timestamp;
     private String message;

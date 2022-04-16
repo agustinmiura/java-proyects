@@ -1,13 +1,8 @@
 package ar.com.miura.usersapi.dto;
 
-/*
-* The USER entity will have the following columns:
-*   “username”,
-*   “fullName”,
-*   “role”,
-*   “emailAddress”, and
-*   “status” (status will be either “pending” or “active”)
-* */
+import ar.com.miura.usersapi.entity.User;
+
+
 @lombok.Data
 @lombok.AllArgsConstructor
 public class UserDto {
@@ -17,5 +12,21 @@ public class UserDto {
     private String role;
     private String emailAddress;
     private String status;
+
+    /**
+     * @param user
+     * @return
+     */
+    public static UserDto fromEntity(User user) {
+        return new UserDto(
+            user.getId(),
+            user.getUsername(),
+            user.getFullName(),
+            user.getRole(),
+            user.getEmailAddress(),
+            user.getStatus()
+        );
+    }
+
 }
 
