@@ -10,6 +10,8 @@ import ar.com.miura.usersapi.repository.RoleRepository;
 import ar.com.miura.usersapi.repository.UserRepository;
 import ar.com.miura.usersapi.utils.IdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -42,9 +44,11 @@ public class UserService {
         this.roleRepository = roleRepository;
     }
 
-    public List<UserDto> findAll() {
-        List<User> users = userRepository.findAll();
-        return users.stream().map(UserDto::fromEntity).collect(toList());
+    public List<UserDto> findAll(PageRequest pageRequest) {
+        Iterable<User> users = userRepository.findAll(pageRequest);
+        List<UserDto> userList = new ArrayList();
+        users.forEach( user -> userList.add(UserDto.fromEntity(user)));
+        return userList;
     }
 
     public UserDto findOne(String id) {
