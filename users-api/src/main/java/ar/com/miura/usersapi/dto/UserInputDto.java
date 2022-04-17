@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +20,7 @@ public class UserInputDto {
     private String fullName;
 
     @NotEmpty
-    private String role;
+    private List<String> roles;
 
     @Email(message = "Email must be valid")
     private String emailAddress;
