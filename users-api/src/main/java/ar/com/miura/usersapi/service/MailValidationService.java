@@ -41,7 +41,7 @@ public class MailValidationService {
         String url = envReader.getProperty(RAPIDAPI_EMAIL_API) + V_2_VALIDATE_EMAIL_$_EMAIL_IP_ADDRESS;
         url = url.replace(EMAIL, mailInputDto.getEmail());
 
-        log.info(" I see the address ");
+        log.info(" I see the address  {}", url);
 
         Map<String,String> headers = Map.of(
             X_RAPID_API_HOST_KEY,
@@ -49,6 +49,7 @@ public class MailValidationService {
             X_RAPID_API_KEY_MAP_KEY,
             envReader.getProperty(RAPIDAPI_KEY)
         );
+        log.info(" Before sending the request to the API");
         ResponseEntity<EmailApiResponse> response = httpService.getRequest(
             WebClient.create(url),
             headers,

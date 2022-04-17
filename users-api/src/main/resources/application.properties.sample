@@ -22,3 +22,8 @@ spring.jpa.properties.hibernate.format_sql=true
 rapidapi.email.api=**********
 rapidapi.hosts=****************
 rapidapi.key=**********************
+
+resilience4j.retry.enabled=true
+resilience4j.retry.maxAttempts=3
+resilience4j.retry.waitDuration=500
+resilience4j.retry.retryOn=java.lang.Exception
