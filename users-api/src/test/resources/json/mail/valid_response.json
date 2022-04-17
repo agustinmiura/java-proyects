@@ -1,0 +1,21 @@
+{
+  "address": "valid@gmail.com",
+  "status": "valid",
+  "sub_status": "",
+  "free_email": true,
+  "did_you_mean": null,
+  "account": "valid",
+  "domain": "gmail.com",
+  "domain_age_days": "60000",
+  "smtp_provider": "google",
+  "mx_found": "true",
+  "mx_record": "gmail-smtp-in.l.google.com",
+  "firstname": "valid",
+  "lastname": "valid",
+  "gender": "male",
+  "country": null,
+  "region": null,
+  "city": null,
+  "zipcode": null,
+  "processed_at": "2022-04-17 19:16:14.107"
+}

@@ -16,16 +16,6 @@ The user should be able to log into the system using their email and password.
 * DELETE: This endpoint will delete the USER with a particular ID.
 This is how the permissions change depending on the role assigned to the user:
 
-Interface Requirements
-======================
-
-Since the Spring Boot backend microservice is a RESTful API and it abstracts the technology choices used on the client, you are welcome to use ANY front-end framework of your choice (React, Angular, Vue, etc.)
-* The interface will have 3 screens. When a user logs in, they will see a table of all the other users (including themself). There will be a “delete” button against all rows to delete that particular user.
-* There will be a button on the top “create a new user”. This button will redirect the user to the second screen (Create User Screen) where they will be to create a new user
-* Create User Screen: This will be a form that takes the information aligned with the USER entity in the database (username, email, full name, and the role that this user should be assigned). On submit, the CREATE API endpoint will be called which sends the new user an email for them to create a password.
-* Create Password Screen: When the new user clicks on the unique link to activate and create a password for their account, they are redirected to this create password screen. They will enter their new password and click on the activate button.
-* The user should be able to log in after activating their account.
-
 Commands
 ========
 
@@ -34,6 +24,14 @@ Commands
 
 * When you aren't using anymore the infrastructure type the command :
 `docker-compose down`
+
+Features:
+=========
+
+* Spring boot 2 api with unit tests and integration tests .
+* Jpa connection with a Postgresql db .
+* Connectivity against an external api to check emails .
+* Layer separation .
 
 Run unit tests
 ==============
@@ -48,11 +46,22 @@ Run unit tests
     * schema.sql
 * Access localhost:8080/h2 to see the database. 
 
-TODO
+Setup the email account for the api request
+===========================================
+
+* Sign up to *https://rapidapi.com/leeann/api/zerobounce1/*
+* Create an app .
+* Signup for the *ZeroBounce API* *https://rapidapi.com/leeann/api/zerobounce1*
+* Fill the *application.properties* like this :
+```
+rapidapi.email.api=https://url.com
+rapidapi.hosts=host.p.rapidapi.com
+rapidapi.key=keyHere
+```
+
+
+Todo
 ====
 
-* Fix the UUID mapping for the table entities and all the entities.
-* data.sql to be executed and load all the data.
-* Use environment variables for the api .
 
 

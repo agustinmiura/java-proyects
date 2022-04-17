@@ -18,8 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
-
-
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserControllerIT {
@@ -28,13 +26,6 @@ public class UserControllerIT {
 
     @Autowired
     private TestRestTemplate restTemplate;
-
-    @Test
-    public void shouldGetUsers() throws IOException {
-        String response = this.restTemplate.getForObject("/v1/users", String.class);
-        String expected = CustomFileUtils.readContent("json/get_all_ok.json");
-        Assertions.assertEquals(expected, response);
-    }
 
     @Test
     public void shouldGetOneUser() throws IOException {

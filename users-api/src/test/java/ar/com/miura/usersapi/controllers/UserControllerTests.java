@@ -1,6 +1,5 @@
 package ar.com.miura.usersapi.controllers;
 
-import ar.com.miura.usersapi.SortingEnum;
 import ar.com.miura.usersapi.controller.UserController;
 import ar.com.miura.usersapi.dto.UserDto;
 import ar.com.miura.usersapi.dto.UserInputDto;
@@ -10,10 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
