@@ -2,6 +2,9 @@ package ar.com.miura.usersapi.dto;
 
 import ar.com.miura.usersapi.entity.Role;
 import ar.com.miura.usersapi.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.List;
@@ -9,8 +12,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
-@lombok.Data
-@lombok.AllArgsConstructor
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
     private String id;
     private String username;
