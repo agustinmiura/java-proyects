@@ -35,11 +35,24 @@ Commands
 * When you aren't using anymore the infrastructure type the command :
 `docker-compose down`
 
+Run unit tests
+==============
+
+* Get the files :
+    * application.properties.testing
+    * data.sql.testing
+    * schema.testing.sql
+* And replace the files :
+    * application.properties
+    * data.sql
+    * schema.sql
+* Access localhost:8080/h2 to see the database. 
+
 TODO
 ====
 
 * Fix the UUID mapping for the table entities and all the entities.
 * data.sql to be executed and load all the data.
-
+* Use environment variables for the api .
 
 
