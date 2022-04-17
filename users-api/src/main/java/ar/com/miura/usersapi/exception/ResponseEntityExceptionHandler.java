@@ -19,6 +19,18 @@ import java.time.LocalDateTime;
 @RestController
 public class ResponseEntityExceptionHandler {
 
+    @ExceptionHandler(InvalidEmailAddress.class)
+    public ResponseEntity<Object> handleInvalidEmail(InvalidEmailAddress ex) {
+        log.error(" Error ", ex);
+        ExceptionResponse exceptionResponse = new ar.com.miura.usersapi.misc.ExceptionResponse(
+                LocalDateTime.now(),
+                ex.getMessage(),
+                "/details"
+        );
+        return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> handleNotFoundException(UserNotFoundException ex) {
         log.error(" Error ", ex);

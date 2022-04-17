@@ -1,0 +1,21 @@
+{
+  "address": "hola@gmail.com",
+  "status": "invalid",
+  "sub_status": "mailbox_not_found",
+  "free_email": true,
+  "did_you_mean": null,
+  "account": "hola",
+  "domain": "gmail.com",
+  "domain_age_days": "9745",
+  "smtp_provider": "google",
+  "mx_found": "true",
+  "mx_record": "gmail-smtp-in.l.google.com",
+  "firstname": null,
+  "lastname": null,
+  "gender": null,
+  "country": null,
+  "region": null,
+  "city": null,
+  "zipcode": null,
+  "processed_at": "2022-04-17 19:15:16.614"
+}
