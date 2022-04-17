@@ -37,12 +37,16 @@ public class UserController {
 
     @PostMapping("/v1/users")
     public ResponseEntity<Object> createUser(@Valid @RequestBody UserInputDto inputDto) {
-        UserDto userDto = userService.save(inputDto);
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(userDto.getId()).toUri();
-        return ResponseEntity.created(location).build();
+        try {
+            UserDto userDto = userService.save(inputDto);
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(userDto.getId()).toUri();
+            return ResponseEntity.created(location).build();
+        }catch(Exception e) {
+            throw e;
+        }
     }
 
     @DeleteMapping("/v1/users/{id}")

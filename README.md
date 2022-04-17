@@ -38,7 +38,7 @@ Commands
 TODO
 ====
 
-* Fix the UUID mapping for the table entities .
+* Fix the UUID mapping for the table entities and all the entities.
 * data.sql to be executed and load all the data.
 
 
