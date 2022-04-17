@@ -25,7 +25,7 @@ public class UserRepositoryTests {
     public void shouldFindAll() {
         Iterable<User> iterable = userRepository.findAll();
         List<User> users = StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
-        Assertions.assertEquals(4, users.size());
+        Assertions.assertEquals(5, users.size());
     }
 
 }
