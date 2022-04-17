@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -54,25 +55,22 @@ public class UserService {
         return UserDto.fromEntity(found.get());
     }
 
-    public UserDto save(UserInputDto userDto) {
+    public UserDto save(UserInputDto inputDto) {
         String id = idGenerator.generateId();
 
-        Role roleFound = roleRepository.findByName(userDto.getRole());
-
-        if (roleFound==null) {
-            throw new RoleNotFoundException(userDto.getRole());
+        Optional<String> invalid = inputDto.getRoles().stream().filter(role -> roleRepository.findByName(role)==null).findFirst();
+        if (!invalid.isEmpty()) {
+            throw new RoleNotFoundException(invalid.get());
         }
-
-        Set<Role> roles = new HashSet<Role>();
-        roles.add(roleFound);
+        Set<Role> roles =  inputDto.getRoles().stream().map( name -> roleRepository.findByName(name)).collect(Collectors.toSet());
 
         User saved = userRepository.save(new User(
             id,
-            userDto.getUsername(),
-            userDto.getFullName(),
+            inputDto.getUsername(),
+            inputDto.getFullName(),
             roles,
-            userDto.getEmailAddress(),
-            userDto.getStatus(),
+            inputDto.getEmailAddress(),
+            inputDto.getStatus(),
             LocalDateTime.now(),
             null
         ));
@@ -88,4 +86,29 @@ public class UserService {
     }
 
 
+    public UserDto update(String id, UserInputDto inputDto) {
+
+        Optional<User> found = userRepository.findById(id);
+        if (found.isEmpty()) {
+            throw new UserNotFoundException(id);
+        }
+
+        Optional<String> invalid = inputDto.getRoles().stream().filter(role -> roleRepository.findByName(role)==null).findFirst();
+        if (!invalid.isEmpty()) {
+            throw new RoleNotFoundException(invalid.get());
+        }
+
+        User user = found.get();
+        Set<Role> roles =  inputDto.getRoles().stream().map( name -> roleRepository.findByName(name)).collect(Collectors.toSet());
+
+        user.setRoles(roles);
+        user.setUsername(inputDto.getUsername());
+        user.setFullName(inputDto.getFullName());
+        user.setEmailAddress(inputDto.getEmailAddress());
+        user.setStatus(inputDto.getStatus());
+
+        userRepository.save(user);
+
+        return UserDto.fromEntity(user);
+    }
 }
