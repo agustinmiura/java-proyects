@@ -4,6 +4,7 @@ import ar.com.miura.usersapi.entity.Role;
 import ar.com.miura.usersapi.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class UserDto {
     private String id;
     private String username;
