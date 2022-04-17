@@ -32,6 +32,7 @@ Features:
 * Jpa connection with a Postgresql db .
 * Connectivity against an external api to check emails .
 * Layer separation .
+* Circuit breaker features with Resilience4J .
 
 Run unit tests
 ==============
@@ -59,9 +60,16 @@ rapidapi.hosts=host.p.rapidapi.com
 rapidapi.key=keyHere
 ```
 
+Setup
+=====
 
-Todo
-====
-
+* Copy the *application.properties.sample* to *application.properties*
+* Setup the api account (see above).
+* Start the docker compose (see above).
+* Config the *application.properties* .
+* Run the api : 
+```
+gradle bootRun
+```
 
 
