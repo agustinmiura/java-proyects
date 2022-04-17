@@ -6,12 +6,14 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class EmailApiResponse {
+public class EmailApiResponse implements Serializable  {
     public String address;
     public String status;
     public String sub_status;

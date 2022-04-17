@@ -6,11 +6,12 @@ import lombok.Data;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class UserInputDto {
+public class UserInputDto implements Serializable {
 
 
     @Size(min = 1, max = 50, message = "Username must be between 2 and 50 characters")

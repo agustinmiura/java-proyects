@@ -33,19 +33,15 @@ Features:
 * Connectivity against an external api to check emails .
 * Layer separation .
 * Circuit breaker features with Resilience4J .
+* Caching with Redis.
 
 Run unit tests
 ==============
 
-* Get the files :
-    * application.properties.testing
-    * data.sql.testing
-    * schema.testing.sql
-* And replace the files :
-    * application.properties
-    * data.sql
-    * schema.sql
-* Access localhost:8080/h2 to see the database. 
+* Inside the api directory execute the command :
+```
+gradle test
+```
 
 Setup the email account for the api request
 ===========================================
