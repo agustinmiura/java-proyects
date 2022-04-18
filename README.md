@@ -34,6 +34,7 @@ Features:
 * Layer separation .
 * Circuit breaker features with Resilience4J .
 * Caching with Redis.
+* Jwt security.
 
 Run unit tests
 ==============
