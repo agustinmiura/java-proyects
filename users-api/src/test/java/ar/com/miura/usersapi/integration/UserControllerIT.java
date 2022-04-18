@@ -15,7 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
@@ -24,7 +24,6 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-@ActiveProfiles(value = "test")
 public class UserControllerIT {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserControllerIT.class);
@@ -33,6 +32,7 @@ public class UserControllerIT {
     private TestRestTemplate restTemplate;
 
     @Test
+    @WithMockUser("user")
     public void shouldGetOneUser() throws IOException {
         String response = this.restTemplate.getForObject("/v1/users/id1", String.class);
         String expected = CustomFileUtils.readContent("json/get_one_ok.json");
