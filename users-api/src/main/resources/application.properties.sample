@@ -27,3 +27,7 @@ resilience4j.retry.enabled=true
 resilience4j.retry.maxAttempts=3
 resilience4j.retry.waitDuration=500
 resilience4j.retry.retryOn=java.lang.Exception
+
+spring.redis.host=127.0.0.1
+spring.redis.port=6379
+spring.redis.password=password

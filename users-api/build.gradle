@@ -53,6 +53,16 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
 
     /*
+    Spring Boot cache
+    **/
+    implementation 'org.springframework.boot:spring-boot-starter-cache:2.5.2'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'redis.clients:jedis:4.2.2'
+    implementation 'org.apache.commons:commons-pool2:2.11.1'
+
+
+
+    /*
     Test implementation
     * */
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

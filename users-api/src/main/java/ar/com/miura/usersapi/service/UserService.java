@@ -10,6 +10,8 @@ import ar.com.miura.usersapi.repository.RoleRepository;
 import ar.com.miura.usersapi.repository.UserRepository;
 import ar.com.miura.usersapi.utils.IdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.springframework.cache.annotation.Cacheable;
+
 
 @Component
 public class UserService {
@@ -40,6 +45,7 @@ public class UserService {
         this.roleRepository = roleRepository;
     }
 
+    @Cacheable(value="users", key="#pageRequest.pageNumber")
     public List<UserDto> findAll(PageRequest pageRequest) {
         Iterable<User> users = userRepository.findAll(pageRequest);
         List<UserDto> userList = new ArrayList();
@@ -47,6 +53,7 @@ public class UserService {
         return userList;
     }
 
+    @Cacheable(value="user", key="#id")
     public UserDto findOne(String id) {
         Optional<User> found = userRepository.findById(id);
         if (found.isEmpty()) {
@@ -76,7 +83,7 @@ public class UserService {
         ));
         return UserDto.fromEntity(saved);
     }
-
+    @CacheEvict(value="user", key="#id")
     public void delete(String id) {
         Optional<User> found = userRepository.findById(id);
         if (found.isEmpty()) {
@@ -84,8 +91,7 @@ public class UserService {
         }
         userRepository.delete(found.get());
     }
-
-
+    @CachePut(value="Invoice", key="#id")
     public UserDto update(String id, UserInputDto inputDto) {
 
         Optional<User> found = userRepository.findById(id);
