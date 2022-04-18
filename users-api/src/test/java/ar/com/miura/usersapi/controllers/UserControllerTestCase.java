@@ -1,15 +1,14 @@
 package ar.com.miura.usersapi.controllers;
 
-import ar.com.miura.usersapi.controller.HealthController;
 import ar.com.miura.usersapi.controller.UserController;
 import ar.com.miura.usersapi.dto.UserDto;
 import ar.com.miura.usersapi.service.UserService;
 import ar.com.miura.usersapi.utils.CustomFileUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(UserController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class UserControllerTestCase {
 
     @Autowired
