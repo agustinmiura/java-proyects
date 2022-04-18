@@ -60,12 +60,19 @@ dependencies {
     implementation 'redis.clients:jedis:4.2.2'
     implementation 'org.apache.commons:commons-pool2:2.11.1'
 
-
+    /*
+    Spring boot security and JWT
+    * */
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.1'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.1'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.1'
 
     /*
     Test implementation
     * */
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {

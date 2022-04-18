@@ -6,6 +6,8 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,6 +20,17 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 @RestController
 public class ResponseEntityExceptionHandler {
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Object> handleInvalidEmail(AuthenticationException ex) {
+        log.error(" Error ", ex);
+        ExceptionResponse exceptionResponse = new ar.com.miura.usersapi.misc.ExceptionResponse(
+                LocalDateTime.now(),
+                ex.getMessage(),
+                "/details"
+        );
+        return new ResponseEntity(exceptionResponse, HttpStatus.UNAUTHORIZED);
+    }
 
     @ExceptionHandler(InvalidEmailAddress.class)
     public ResponseEntity<Object> handleInvalidEmail(InvalidEmailAddress ex) {

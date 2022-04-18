@@ -34,6 +34,7 @@ Features:
 * Layer separation .
 * Circuit breaker features with Resilience4J .
 * Caching with Redis.
+* Jwt security.
 
 Run unit tests
 ==============
@@ -55,6 +56,28 @@ rapidapi.email.api=https://url.com
 rapidapi.hosts=host.p.rapidapi.com
 rapidapi.key=keyHere
 ```
+
+Jwt token
+=========
+
+* Go to *https://jwt.io/*
+* Generate the jwt token with :
+```
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+```
+```
+{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "iat": 1516239022,
+  "username":"user",
+  "authorities":"role_1,role_2,role_3"
+}
+```
+* Send the request with a header *Authorization* and the JWT token .
 
 Setup
 =====
