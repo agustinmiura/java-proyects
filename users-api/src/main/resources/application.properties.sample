@@ -31,3 +31,6 @@ resilience4j.retry.retryOn=java.lang.Exception
 spring.redis.host=127.0.0.1
 spring.redis.port=6379
 spring.redis.password=password
+
+jwt.key=oLs7SaxaM8NL4GSlhElq7JizIO6ehcaKEjaB2qjU9yheWrznV5JqD8Fgfp0x46kg
+jwt.timeInSecond=60000

@@ -90,5 +90,14 @@ Setup
 ```
 gradle bootRun
 ```
-
-
+* Once the api is running generate the token with this command :
+```
+curl --location --request POST 'http://127.0.0.1:8080/v1/authentication' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: JSESSIONID=26A51B224343F7230EA8F768810A668D' \
+--data-raw '{
+    "user":"user",
+    "password":"password"
+}'
+```
+* Use the jwt token to make the requests.
