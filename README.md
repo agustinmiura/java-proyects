@@ -101,3 +101,6 @@ curl --location --request POST 'http://127.0.0.1:8080/v1/authentication' \
 }'
 ```
 * Use the jwt token to make the requests.
+
+
+
