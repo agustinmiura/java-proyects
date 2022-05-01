@@ -8,8 +8,8 @@ plugins {
 
 group = 'ar.com.miura'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '16'
-
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
