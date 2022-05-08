@@ -1,0 +1,16 @@
+[{
+  "id": "id1",
+  "genre": "comedy",
+  "name": "Crazy comedy",
+  "year": 2000
+},{
+  "id": "id2",
+  "genre": "comedy",
+  "name": "Crazy comedy",
+  "year": 2002
+},{
+  "id": "id3",
+  "genre": "comedy",
+  "name": "Crazy comedy",
+  "year": 2003
+}]
