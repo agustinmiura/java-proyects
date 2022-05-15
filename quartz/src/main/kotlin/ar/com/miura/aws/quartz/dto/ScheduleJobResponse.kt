@@ -1,6 +1,6 @@
 package ar.com.miura.aws.quartz.dto
 
-data class ScheduleEmailResponse(
+data class ScheduleJobResponse(
     var success: Boolean,
     var jobId: String,
     var jobGroup: String,

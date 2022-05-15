@@ -7,17 +7,17 @@ import org.springframework.scheduling.quartz.QuartzJobBean
 import org.springframework.stereotype.Component
 
 @Component
-class EmailJob : QuartzJobBean() {
+class FileJob : QuartzJobBean() {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
     @Autowired
-    private lateinit var mockJob: MockJob
+    private lateinit var fileWriter: FileWriter
 
     override fun executeInternal(jobExecutionContext: JobExecutionContext) {
-        logger.info("Executing Job with key {}", jobExecutionContext.getJobDetail().getKey())
-        mockJob.writeFile();
-        logger.info(" Sending the mail ")
+        logger.debug("Executing Job with key {}", jobExecutionContext.getJobDetail().getKey())
+        fileWriter.writeFile();
+        logger.debug(" Sending the mail ")
     }
 
 }

@@ -1,26 +1,22 @@
 package ar.com.miura.aws.quartz.controller
 
-import ar.com.miura.aws.quartz.dto.ScheduleEmailRequest
-import ar.com.miura.aws.quartz.dto.ScheduleEmailResponse
-import ar.com.miura.aws.quartz.job.EmailJob
+import ar.com.miura.aws.quartz.dto.SchedulRequest
+import ar.com.miura.aws.quartz.dto.ScheduleJobResponse
+import ar.com.miura.aws.quartz.job.FileJob
 import org.quartz.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import java.nio.file.Files
-import java.nio.file.Paths
 import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.util.*
-import java.util.random.RandomGenerator
 
 
 @RestController
-class EmailJobSchedulerController {
+class FileJobSchedulerController {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -28,46 +24,44 @@ class EmailJobSchedulerController {
     private var scheduler: Scheduler? = null
 
     @PostMapping("/schedulejob")
-    fun createSchedule(@RequestBody scheduleEmailRequest: ScheduleEmailRequest): ResponseEntity<ScheduleEmailResponse> {
+    fun createSchedule(@RequestBody schedulRequest: SchedulRequest): ResponseEntity<ScheduleJobResponse> {
         try {
 
             val dateTime: ZonedDateTime = ZonedDateTime.of(
-                scheduleEmailRequest.dateTime,
-                scheduleEmailRequest.timeZone
+                schedulRequest.dateTime,
+                schedulRequest.timeZone
             )
 
             if (dateTime.isBefore(ZonedDateTime.now())) {
-                val scheduleEmailResponse = ScheduleEmailResponse(
+                val scheduleJobResponse = ScheduleJobResponse(
                     false,
                     "dateTime must be after current time"
                 )
-                return ResponseEntity.badRequest().body(scheduleEmailResponse)
+                return ResponseEntity.badRequest().body(scheduleJobResponse)
             }
 
-            val jobDetail: JobDetail = buildJobDetail(scheduleEmailRequest)
+            val jobDetail: JobDetail = buildJobDetail(schedulRequest)
             val trigger: Trigger = buildJobTrigger(jobDetail, dateTime)
             scheduler!!.scheduleJob(jobDetail, trigger)
 
-            val scheduleEmailResponse = ScheduleEmailResponse(
+            val scheduleJobResponse = ScheduleJobResponse(
                 true,
                 jobDetail.getKey().getName(),
                 jobDetail.getKey().getGroup(),
                 "Email Scheduled Successfully!"
             )
-            return ResponseEntity.ok().body(ScheduleEmailResponse(true, "message"))
+            return ResponseEntity.ok().body(ScheduleJobResponse(true, "message"))
         } catch (e: Exception) {
             logger.error(" Error ", e);
             return ResponseEntity.internalServerError()
-                .body(ScheduleEmailResponse(false, "message"))
+                .body(ScheduleJobResponse(false, "message"))
         }
     }
 
-    private fun buildJobDetail(scheduleEmailRequest: ScheduleEmailRequest): JobDetail {
+    private fun buildJobDetail(schedulRequest: SchedulRequest): JobDetail {
         val jobDataMap = JobDataMap()
-        jobDataMap.put("email", scheduleEmailRequest.email)
-        jobDataMap.put("subject", scheduleEmailRequest.subject)
-        jobDataMap.put("body", scheduleEmailRequest.body)
-        return JobBuilder.newJob(EmailJob::class.java)
+        jobDataMap.put("dateRequested", LocalDateTime.now())
+        return JobBuilder.newJob(FileJob::class.java)
             .withIdentity(UUID.randomUUID().toString(), "email-jobs")
             .withDescription("Send Email Job")
             .usingJobData(jobDataMap)
