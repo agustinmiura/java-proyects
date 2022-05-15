@@ -37,3 +37,8 @@ users-api/src/main/resources/application.properties
 
 build/*
 
+bin/*
+
+aws/bin
+
+quartz/bin
