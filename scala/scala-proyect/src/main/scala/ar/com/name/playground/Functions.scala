@@ -48,7 +48,9 @@ object Functions extends App {
     isPrimeUntil(n/2)
   }
 
-  println(isPrime(37))
+  def nextInt(x:Int) = x + 1
+
+  println(nextInt(37))
 
 
 }
