@@ -1,0 +1,49 @@
+
+ 
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery</title>
+<script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
+<script>
+
+ $(document).ready(function() {
+    //var okUrl = 'http://localhost:9000/health'
+    //var okUrl = 'http://localhost:8080/hello-world/healthCheck/parse'
+    var okUrl = 'http://localhost:8000/mock/health'
+
+    var settings = {
+          'cache': false,
+          'dataType': "json",
+          "async": true,
+          "crossDomain": true,
+          "url": okUrl,
+          "method": "GET",
+          "headers": {
+              "accept": "application/json"
+              /*"Access-Control-Allow-Origin":"*"*/
+          },
+          "complete":function(jqXHR, status) {
+            console.log(" jqXHR ",  jqXHR);
+            console.log(" status ", status);
+            console.log("Completed the request")
+          }
+      }
+
+      $("#button").click(function(){
+        console.log("Clicked button")
+        $.ajax(settings).done(function (response) {
+            console.log("Finished");
+            console.log(response);
+        });
+      });
+
+ });
+
+</script>
+</head>
+<body>
+    <button type="button" id="button">Click Me!</button>
+</body>
+</html>
