@@ -18,6 +18,7 @@ abstract class MyList[+A] {
   def sort(compare: (A,A) => Int): MyList[A]
 
   def zipWith[B,C](list: MyList[B], zip:(A, B) => C): MyList[C]
+  def fold[B](start:B)(operator: (B,A) => B):B
 }
 
 object Empty extends MyList[Nothing] {
@@ -41,6 +42,9 @@ object Empty extends MyList[Nothing] {
     if (!list.isEmpty) throw new RuntimeException(" Lists don't have the same length ")
     else Empty
   }
+
+  def fold[B](start:B)(operator: (B,Nothing) => B):B = start
+
 }
 
 class Cons[+A](h:A, t:MyList[A]) extends MyList[A] {
@@ -84,6 +88,7 @@ class Cons[+A](h:A, t:MyList[A]) extends MyList[A] {
     if (list.isEmpty) throw new RuntimeException(" Lists don't have the same lenght ")
     else new Cons(zip(h, list.head), t.zipWith(list.tail, zip))
   }
+  def fold[B](start:B)(operator: (B,A) => B):B = t.fold(operator(start, head))(operator)
 
 }
 
@@ -105,4 +110,6 @@ object ListTest extends App {
   println(anotherList2.sort((x,y) => y - x))
 
   println(listOfIntegers.zipWith(anotherList, _ + " " + _))
+
+  println(listOfIntegers.fold(0)(_ + _))
 }
