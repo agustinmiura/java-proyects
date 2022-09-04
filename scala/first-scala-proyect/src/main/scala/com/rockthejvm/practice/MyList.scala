@@ -30,7 +30,7 @@ object Empty extends MyList[Nothing] {
 
   def ++[B >: Nothing](list: MyList[B]) : MyList[B] = list
 
-  def foreach(f: A => Unit): Unit = ()
+  def foreach(f: Nothing => Unit): Unit = ()
 }
 
 class Cons[+A](h:A, t:MyList[A]) extends MyList[A] {
@@ -63,7 +63,7 @@ class Cons[+A](h:A, t:MyList[A]) extends MyList[A] {
 
 }
 
-class ListTest {
+object ListTest extends App {
 
   val listOfIntegers: MyList[Int] = new Cons(1, new Cons(2, new Cons(3, Empty)))
   println(listOfIntegers.toString)
