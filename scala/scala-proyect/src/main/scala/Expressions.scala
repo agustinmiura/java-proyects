@@ -1,5 +1,3 @@
-package ar.com.name
-package ar.com.name.playground
 
 object Expressions extends App {
 
