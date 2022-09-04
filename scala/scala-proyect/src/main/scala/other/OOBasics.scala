@@ -1,3 +1,6 @@
+package ar.com.name
+package other
+
 
 object OOBasics extends App {
   val person = new Person("name", 10)
@@ -29,8 +32,8 @@ class Person(val name: String, val age: Int = 0) {
 }
 
 /**
- * Novel
- * Writer
+ * ar.com.name.other.Novel
+ * ar.com.name.other.Writer
  *
  */
 class Writer(firstName: String, surname: String, val year: Int) {

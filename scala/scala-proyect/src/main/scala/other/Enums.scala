@@ -1,3 +1,7 @@
+package ar.com.name
+package other
+
+import other.Enums.{PermissionWithBits, Permissions}
 
 object Enums {
 

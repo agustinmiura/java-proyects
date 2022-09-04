@@ -1,5 +1,5 @@
 package ar.com.name
-package ar.com.name
+package other
 
 object CBNvsCBV extends App {
 

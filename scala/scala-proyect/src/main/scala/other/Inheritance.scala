@@ -1,3 +1,5 @@
+package ar.com.name
+package other
 
 object Inheritance extends App {
 
