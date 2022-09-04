@@ -1,5 +1,5 @@
-package ar.com.name
-package ar.com.name.playground
+package com.rockthejvm.part1basics
+
 
 object Expressions extends App {
 
