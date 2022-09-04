@@ -1,9 +1,4 @@
-package ar.com.name
-package practice
-
-import other.*
-
-import scala.annotation.tailrec
+package com.rockthejvm.practice
 
 abstract class MyList[+A] {
   def head:A
@@ -69,7 +64,7 @@ class Cons[+A](h:A, t:MyList[A]) extends MyList[A] {
 }
 
 class ListTest {
-  
+
   val listOfIntegers: MyList[Int] = new Cons(1, new Cons(2, new Cons(3, Empty)))
   println(listOfIntegers.toString)
 
