@@ -16,7 +16,7 @@ object TuplesAndMaps extends App {
   val map: Map[String, Int] = Map()
   println(map)
 
-  val phoneBook = Map(("Jim",555),("John",222),("John2",22))
+  val phoneBook = Map(("Jim",555),("JIM",900),("John",222),("John2",22))
   val anotherPhoneBook = Map("Jim" -> 111, "John" -> 222).withDefaultValue(-1)
 
   println(anotherPhoneBook)
