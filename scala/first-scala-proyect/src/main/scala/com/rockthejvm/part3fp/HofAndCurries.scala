@@ -29,6 +29,8 @@ object HofAndCurries extends App {
 
   val preciseFormat: (Double => String) = curriedFormatter("%10.8f")
 
+  
+  
   println(standardFormat(Math.PI))
   println(preciseFormat(Math.PI))
 
