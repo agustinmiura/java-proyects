@@ -27,4 +27,22 @@ object MapFlatMapFilterFor extends App {
   println(combinations)
   println(combinations2)
 
+  numbers.foreach(println)
+
+  val forCombinations = for
+    n <- numbers if n % 2 == 0
+    c <- chars
+    color <- colors
+  yield "" + n + c + color
+
+  println(forCombinations)
+
+  for {
+    n <- numbers
+  } println(n)
+
+  numbers.map { x =>
+    x * 2
+  }
+
 }

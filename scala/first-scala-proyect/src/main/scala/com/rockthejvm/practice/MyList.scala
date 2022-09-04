@@ -112,4 +112,13 @@ object ListTest extends App {
   println(listOfIntegers.zipWith(anotherList, _ + " " + _))
 
   println(listOfIntegers.fold(0)(_ + _))
+
+  val combinations = for {
+    n <- listOfIntegers
+    n2 <- anotherList
+  } yield n + "_" + n2
+  println(combinations)
+  
+  
+  
 }
