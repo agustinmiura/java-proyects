@@ -27,9 +27,12 @@ object WhatsAFunction extends App {
     }
   }
 
+  val superAdder2 =  (x:Int) => (y:Int) => x + y
+
   val adder3 = superAdder(3)
   println(adder3(4))
   println(superAdder(3)(4))
+  println(superAdder2 (3) (4))
 
 }
 
