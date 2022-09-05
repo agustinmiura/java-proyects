@@ -1,4 +1,4 @@
-name := "udemy-scala-advanced"
+name := "scala-advanced"
 
 version := "0.1"
 
