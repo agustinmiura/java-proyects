@@ -25,8 +25,6 @@ object PatternsEverywhere extends App {
     case 1 => "The one"
     case _ => "Something else"
   }
-
   println(mappedList)
 
-  
 }
