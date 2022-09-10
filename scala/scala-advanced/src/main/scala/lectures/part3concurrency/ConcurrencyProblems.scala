@@ -58,6 +58,7 @@ object ConcurrencyProblems {
       message = "Scala sucks"
       awesomeThread.start()
       Thread.sleep(1001)
+      awesomeThread.join()
       println(message)
     }
 
