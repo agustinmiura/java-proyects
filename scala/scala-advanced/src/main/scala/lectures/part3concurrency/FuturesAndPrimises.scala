@@ -2,7 +2,7 @@ package lectures.part3concurrency
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Await, Future, Promise}
-import scala.util.{Failure, Random, Success}
+import scala.util.{Failure, Random, Success, Try}
 import scala.concurrent.duration.*
 
 object FuturesAndPrimises extends App {
@@ -130,4 +130,39 @@ object FuturesAndPrimises extends App {
 
   producer.start()
   Thread.sleep(1000)
+
+  def fullfillInmediately[T](value: T): Future[T] = Future(value)
+
+  def inSequence[A,B](first: Future[A], second: Future[B]): Future[B] = {
+    first.flatMap(_ => second)
+  }
+
+  def first[A](fa: Future[A], fb: Future[A]): Future[A] = {
+    val promise = Promise[A]
+    def tryComplete(promise: Promise[A], result: Try[A]): Unit = result match {
+      case Success(r) => try {
+        promise.success(r)
+      } catch {
+        case _ =>
+      }
+    }
+    fa.onComplete(tryComplete(promise, _))
+    fb.onComplete(tryComplete(promise, _))
+    promise.future
+  }
+
+
+  def last[A](fa: Future[A], fb: Future[A]): Future[A] = {
+    val bothPromise = Promise[A]
+    val lastPromise = Promise[A]
+    val checkAndComplete = (result: Try[A]) =>
+      if (!bothPromise.tryComplete(result))
+        lastPromise.complete(result)
+    fa.onComplete(checkAndComplete)
+    fb.onComplete(checkAndComplete)
+    lastPromise.future
+  }
+
+  println("Done!")
+
 }
