@@ -1,8 +1,9 @@
 package lectures.part3concurrency
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{Await, Future, Promise}
 import scala.util.{Failure, Random, Success}
+import scala.concurrent.duration.*
 
 object FuturesAndPrimises extends App {
 
@@ -22,8 +23,6 @@ object FuturesAndPrimises extends App {
     case Success(meaningOfLife) => println(s"The meaning of life is $meaningOfLife")
     case Failure(e) => println(s"I have failed with $e")
   })
-
-  Thread.sleep(3000)
 
   case class Profile(id: String, name: String) {
     def poke(anotherProfile: Profile) = {
@@ -88,6 +87,47 @@ object FuturesAndPrimises extends App {
   }
 
   val fallbackResult = SocialNetwork.fetchProfile("unkown id").fallbackTo(SocialNetwork.fetchProfile("fb.id.0-dummy"))
-  
 
+  case class User(name: String)
+  case class Transaction(sender:String, receiver: String, amount:Double, status: String)
+
+  val random = Random();
+  object BankingApp {
+    val name = "Rock the JVM banking"
+    def fetchUser(name: String): Future[User] = Future {
+      Thread.sleep(500)
+      User(name)
+    }
+    def createTransaction(user:User, merchantName: String, amountDouble: Double): Future[Transaction] = Future {
+      Thread.sleep(1000)
+      Transaction(user.name, merchantName, amountDouble, "SUCCESS")
+    }
+    def purchase(username:String, item: String, merchantName: String, cost: Double): String = {
+      val transactionStatusFuture = for {
+        user <- fetchUser(username)
+        transaction <- createTransaction(user, merchantName, cost)
+      } yield transaction.status
+
+      Await.result(transactionStatusFuture, 2.seconds)
+    }
+  }
+
+  println(BankingApp.purchase("Daniel", "iPhone 12", "rock the jvm stgore", 3000))
+
+  val aPromise = Promise[Int]()
+  val future = aPromise.future
+
+  future.onComplete {
+    case Success(r) => println("[consumer] I've received  the " + r)
+  }
+
+  val producer = new Thread(() => {
+    println("[producer] crunching numbers ...")
+    Thread.sleep(1000)
+    aPromise.success(42)
+    println("[producer] done")
+  })
+
+  producer.start()
+  Thread.sleep(1000)
 }
