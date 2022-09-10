@@ -1,6 +1,7 @@
 package lectures.part4implicits
 
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object MagnetPattern extends App {
 
@@ -37,7 +38,40 @@ object MagnetPattern extends App {
     }
   }
 
+  implicit class FromRequestFuture(future: Future[P2PRequest]) extends MessageMagnet[Int] {
+    override def apply(): Int = 2
+  }
+
+  implicit class FromResponseFuture(future: Future[P2PResposes])  extends MessageMagnet[Int] {
+    override def apply(): Int = 2
+  }
+
+  receive((Future(new P2PResposes)))
+  receive((Future(new P2PRequest)))
   receive(new P2PRequest)
   receive(new P2PResposes)
+
+  trait MathLib {
+    def add1(x: Int): Int = x + 1
+    def add1(s: String): Int = s.toInt + 1
+  }
+
+  trait AddMagnet {
+    def apply(): Int
+  }
+
+  def add1(magnet: AddMagnet): Int = magnet()
+
+  implicit class AddInt(x: Int) extends AddMagnet {
+    override def apply(): Int = x + 1
+  }
+
+  implicit class AddString(x: String) extends AddMagnet {
+    override  def apply(): Int = x.toInt + 1
+  }
+
+  def addFv = add1 _
+  println(addFv(1))
+  println(addFv("3"))
 
 }
