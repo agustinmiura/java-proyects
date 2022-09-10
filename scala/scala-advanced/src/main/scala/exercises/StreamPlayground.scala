@@ -100,5 +100,5 @@ object StreamPlayground extends App {
 
   println(erastosthenes(MyStream.from(2)(_ + 1)).take(100).toList())
   println(fibonacci(1,1).take(100).toList())
-  
+
 }
