@@ -74,4 +74,36 @@ object MagnetPattern extends App {
   println(addFv(1))
   println(addFv("3"))
 
+
+  class Handler {
+    def handle(s: => String) = {
+      println(s)
+      println(s)
+    }
+  }
+
+  trait HandleMagnet {
+    def apply(): Unit
+  }
+
+  def handle(magnet: HandleMagnet) = magnet
+
+  implicit class StringHandle(s: => String) extends HandleMagnet {
+    override def apply(): Unit = {
+      println(s)
+      println(s)
+    }
+  }
+
+  def sideEffectMethgod(): String = {
+    println("Hello, Scala")
+    "Haaha"
+  }
+
+  //handle(sideEffectMethgod())
+  handle {
+    println("Hello , Scala")
+    "magnet"
+  }
+
 }
