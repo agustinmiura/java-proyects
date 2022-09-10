@@ -72,8 +72,6 @@ object Givens extends App {
     override def apply(x: String) = Person(x)
   }
 
-  
-
   println(ordered)
 
 }
