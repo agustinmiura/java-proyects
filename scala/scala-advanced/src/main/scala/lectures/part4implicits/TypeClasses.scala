@@ -54,5 +54,18 @@ object TypeClasses extends App {
 
   println(john === anotherJohn)
 
+  def htmlBoilerPlate[T](content: T)(implicit serializer: HTMLSerializer[T]): String =
+    s"<html><body> ${content.toHtml(serializer)}</body></html>"
+
+  def htmlSugar[T : HTMLSerializer](content: T): String =
+    val serializer = implicitly[HTMLSerializer[T]]
+    s"<html><body> ${content.toHtml}</body></html>"
+
+  case class Permissions(mask: String)
+  implicit val defaultPermissions: Permissions = Permissions("0744")
+
+  val standardPerms = implicitly[Permissions]
+
   
+
 }
