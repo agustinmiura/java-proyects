@@ -1,5 +1,6 @@
 package lectures.part4implicits
 
+import exercises.EqualityPlayground.{Equal, anotherJohn}
 import lectures.part4implicits.TypeClasses.HTMLSerializer.serializeToHtml
 
 import java.util.Date
@@ -45,4 +46,13 @@ object TypeClasses extends App {
   }
 
   println(2.toHtml)
+
+  implicit class TypeSafeEqual[T](value: T) {
+    def ===(other: T)(implicit equalizer: Equal[T]): Boolean = equalizer.apply(value, other)
+    def !==(other: T)(implicit equalizer: Equal[T]): Boolean = ! equalizer.apply(value, other)
+  }
+
+  println(john === anotherJohn)
+
+  
 }
