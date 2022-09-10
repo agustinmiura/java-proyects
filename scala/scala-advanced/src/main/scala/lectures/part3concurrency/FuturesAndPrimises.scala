@@ -1,9 +1,9 @@
 package lectures.part3concurrency
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.*
 import scala.concurrent.{Await, Future, Promise}
 import scala.util.{Failure, Random, Success, Try}
-import scala.concurrent.duration.*
 
 object FuturesAndPrimises extends App {
 
@@ -89,20 +89,25 @@ object FuturesAndPrimises extends App {
   val fallbackResult = SocialNetwork.fetchProfile("unkown id").fallbackTo(SocialNetwork.fetchProfile("fb.id.0-dummy"))
 
   case class User(name: String)
-  case class Transaction(sender:String, receiver: String, amount:Double, status: String)
+
+  case class Transaction(sender: String, receiver: String, amount: Double, status: String)
 
   val random = Random();
+
   object BankingApp {
     val name = "Rock the JVM banking"
+
     def fetchUser(name: String): Future[User] = Future {
       Thread.sleep(500)
       User(name)
     }
-    def createTransaction(user:User, merchantName: String, amountDouble: Double): Future[Transaction] = Future {
+
+    def createTransaction(user: User, merchantName: String, amountDouble: Double): Future[Transaction] = Future {
       Thread.sleep(1000)
       Transaction(user.name, merchantName, amountDouble, "SUCCESS")
     }
-    def purchase(username:String, item: String, merchantName: String, cost: Double): String = {
+
+    def purchase(username: String, item: String, merchantName: String, cost: Double): String = {
       val transactionStatusFuture = for {
         user <- fetchUser(username)
         transaction <- createTransaction(user, merchantName, cost)
@@ -133,12 +138,13 @@ object FuturesAndPrimises extends App {
 
   def fullfillInmediately[T](value: T): Future[T] = Future(value)
 
-  def inSequence[A,B](first: Future[A], second: Future[B]): Future[B] = {
+  def inSequence[A, B](first: Future[A], second: Future[B]): Future[B] = {
     first.flatMap(_ => second)
   }
 
   def first[A](fa: Future[A], fb: Future[A]): Future[A] = {
     val promise = Promise[A]
+
     def tryComplete(promise: Promise[A], result: Try[A]): Unit = result match {
       case Success(r) => try {
         promise.success(r)
@@ -146,6 +152,7 @@ object FuturesAndPrimises extends App {
         case _ =>
       }
     }
+
     fa.onComplete(tryComplete(promise, _))
     fb.onComplete(tryComplete(promise, _))
     promise.future
@@ -163,6 +170,36 @@ object FuturesAndPrimises extends App {
     lastPromise.future
   }
 
+  val fast = Future {
+    Thread.sleep(100)
+    42
+  }
+
+  val slow = Future {
+    Thread.sleep(200)
+    45
+  }
+
+  first(fast, slow).foreach(println)
+  last(fast, slow).foreach(println)
+
   println("Done!")
+
+  def retryUntil[A](action: () => Future[A], condition: A => Boolean): Future[A] =
+    action()
+      .filter(condition)
+      .recoverWith {
+        case _ => retryUntil(action, condition)
+      }
+
+  val action = () => Future {
+    Thread.sleep(100)
+    val nextValue = random.nextInt(100)
+    println(" generated : " + nextValue)
+    nextValue
+  }
+
+  retryUntil(action, (x:Int) => x < 10).foreach(result => println("settle at" + result))
+  Thread.sleep(10000)
 
 }
