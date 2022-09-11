@@ -1,6 +1,6 @@
 package lectures.part5ts
 
-class RockingInheritance extends App {
+object RockingInheritance extends App {
 
   trait Writer[T] {
     def write(value: T): Unit
@@ -27,6 +27,39 @@ class RockingInheritance extends App {
   val m = new Mutant
   println(m.name)
 
-  
+  trait Cold {
+    def print = println("cold")
+  }
+
+  trait Green extends Cold {
+    override def print: Unit = {
+      println("green")
+      super.print
+    }
+  }
+
+  trait Blue extends Cold {
+    override def print: Unit = {
+      println("blue")
+      super.print
+    }
+  }
+
+  trait Red extends Cold {
+    override def print: Unit = {
+      println("red")
+      super.print
+    }
+  }
+
+  class White extends Red with Green with Blue {
+    override def print: Unit = {
+      println("white")
+      super.print
+    }
+  }
+
+  val color = new White()
+  color.print
 
 }
