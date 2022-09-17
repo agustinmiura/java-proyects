@@ -1,5 +1,7 @@
 package part1recap
 
+import scala.concurrent.Future
+
 object ThreadModelLimitations extends App {
   class BankAccount(@volatile private var amount: Int) {
     override def toString: String = "" + amount
@@ -48,9 +50,22 @@ object ThreadModelLimitations extends App {
     }
   }
 
+  /*
   runningThread.start()
   Thread.sleep(500)
   delegateToBackgroundThread(() => println(99))
   Thread.sleep(500)
   delegateToBackgroundThread(() => println("Finished"))
+  */
+
+  import scala.concurrent.ExecutionContext.Implicits.global
+
+  val futures = (1 to 11)
+    .map(i => 10000 * i until 10000 * (i + 1))
+    .map(range => Future {
+      if (range.contains(10001)) throw new RuntimeException("Invalid number")
+      range.sum
+    })
+
+  val sumFuture = Future.reduceLeft(futures)(_ + _)
 }
