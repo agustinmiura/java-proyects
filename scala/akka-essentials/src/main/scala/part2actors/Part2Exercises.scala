@@ -1,118 +1,112 @@
 package part2actors
 
 import akka.actor.{Actor, ActorRef, ActorSystem, Props}
+import part2actors.Part2Exercises.Person.Client
 
 object Part2Exercises extends App {
+
+  object ActorCounter {
+    case object Increment
+
+    case object Decrement
+
+    case object Print
+  }
 
   /**
    * Counting with actors
    */
   class ActorCounter extends Actor {
+
+    import ActorCounter._
+
     var counter = 0
 
     override def receive: Receive = {
-      case Increment(amount) =>
-        //println(s"[ActorCounter] Increment : ${amount}")
-        counter += amount
-      case Decrement(amount) =>
-        //println(s"[ActorCounter] Decrement : ${amount}")
-        counter -= amount
-      case print: Print => println(s"[ActorCounter] counter : ${counter}")
+      case Increment =>
+        counter += 1
+      case Decrement =>
+        counter -= 1
+      case Print => println(s"[ActorCounter] counter : ${counter}")
       case _ => println("Message not matched")
     }
   }
 
-  case class Increment(delta: Int)
-
-  case class Decrement(delta: Int)
-
-  case class Print()
-
   val counterSystem = ActorSystem("counterSystem")
   val counterActor = counterSystem.actorOf(Props[ActorCounter], "actorCounter")
+
   /*
-  counterActor ! Increment(1)
-  counterActor ! Print()
-  counterActor ! Decrement(1)
-  counterActor ! Print()
+  counterActor ! ActorCounter.Increment
+  counterActor ! ActorCounter.Print
+  counterActor ! ActorCounter.Decrement
+  counterActor ! ActorCounter.Print
   */
+
   /**
    * Bank account actor
    */
+  object BankActor {
+    case class Deposit(amount: Double)
 
-  case class Deposit(amount: Double)
+    case class Withdraw(amount: Double)
 
-  case class Withdraw(amount: Double)
+    case class SuccessResult(message: String)
 
-  case class SuccessResult()
+    case class FailureResult(message: String)
 
-  case class FailureResult(message: String)
-
-  case class Statement()
+    case object Statement
+  }
 
   class BankActor extends Actor {
     var money: Double = 0.0
+
+    import BankActor._
 
     override def receive: Receive = {
       case Deposit(amount) =>
         println("[BankActor] deposit")
         money += amount
+        sender() ! SuccessResult(s"Success deposit $amount")
       case Withdraw(amount) =>
         println("[BankActor] withdraw")
         if (amount <= money) {
           money -= amount
-          SuccessResult
+          sender() ! SuccessResult(s"Withdraw success $amount")
         } else {
-          FailureResult
+          sender() ! FailureResult("Invalid amount")
         }
-      case Statement => println(s"[BankActor] the statement is $money")
-      case DepositAction(amount, ref) =>
-        println("[BankActor] DepositAction")
-        money += amount
-        ref ! SuccessResult
-      case WithdrawAction(amount, ref) =>
-        println("[BankActor] WithdrawAction")
-        if (amount <= money) {
-          money -= amount
-          ref ! SuccessResult
-        } else {
-          ref ! FailureResult("Not enough money")
-        }
+      case Statement => sender() ! s"Your balance is funds $money"
       case _ => println(s"No matching ")
     }
   }
 
-  case class DepositAction(amount: Double, ref: ActorRef)
+  object Person {
+    case class Client(account: ActorRef)
+  }
 
-  case class WithdrawAction(amount: Double, ref: ActorRef)
+  class Person extends Actor {
 
-  class TestActor extends Actor {
+    import BankActor._
+    import Person._
+
     override def receive: Receive = {
-      case DepositAction(amount, actor) =>
-        println("[TestActor]Deposit")
-        actor ! (DepositAction(amount, self))
-      case WithdrawAction(amount, actor) =>
-        println("[TestActor]Withdraw")
-        actor ! (WithdrawAction(amount, self))
-      case SuccessResult => println("Operation success")
-      case FailureResult(message) => println(s"Operation failure $message")
+      case Client(account) =>
+        account ! Deposit(10)
+        account ! Withdraw(1.0)
+        account ! Withdraw(2.0)
+        account ! Statement
+      case SuccessResult(message) => println(s"Success result $message")
+      case FailureResult(message) => println(s"Failure : $message")
+      case message: String => println(message)
+      case _ => println("Not matching")
     }
   }
 
   val bankSystem = ActorSystem("bankSystem")
   val bankActor = bankSystem.actorOf(Props[BankActor], "bankActor")
-  val testActor = bankSystem.actorOf(Props[TestActor], "testActor")
+  val testActor = bankSystem.actorOf(Props[Person], "personActor")
 
-  /*
-  bankActor ! Deposit(10.0)
-  bankActor ! Statement
-  bankActor ! Withdraw(0.1)
-  bankActor ! Statement
-  */
-
-  testActor ! DepositAction(10.0, bankActor)
-  //testActor ! WithdrawAction(100.0, bankActor)
-  testActor ! WithdrawAction(0.1, bankActor)
+  testActor ! Client(bankActor)
 
   println("Finished message")
 }
