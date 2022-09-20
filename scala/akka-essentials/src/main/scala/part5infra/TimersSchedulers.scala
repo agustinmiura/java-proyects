@@ -63,7 +63,7 @@ object TimersSchedulers extends App {
     selfClosingActor ! "pong"
   }
   */
-  
+
   case object TimerKey
   case object Start
   case object Reminder
