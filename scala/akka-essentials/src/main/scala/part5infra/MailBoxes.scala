@@ -21,7 +21,7 @@ object MailBoxes extends App {
   aSystem ! "[P1] do this when you have the time"
   aSystem ! ManagementTicket
   */
-  
+
   val altControlAwareActor = system.actorOf(Props[SimpleActor], "altControlAwareActor")
   altControlAwareActor ! "[P0] this needs to be solved NOW!"
   altControlAwareActor ! "[P1] do this when you have the time"
