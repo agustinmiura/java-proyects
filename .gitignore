@@ -42,3 +42,5 @@ bin/*
 aws/bin
 
 quartz/bin
+
+*.backup
