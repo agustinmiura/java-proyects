@@ -1,4 +1,4 @@
-package part1_recap
+package part2_primer
 
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
@@ -28,17 +28,18 @@ object FirstPrinciples extends App {
   */
 
   val finiteSource = Source.single(1)
-  val anotherFiniteSource = Source(List(1,2,3))
+  val anotherFiniteSource = Source(List(1, 2, 3))
   val emptySource = Source.empty[Int]
   val infiniteSource = Source(Stream.from(1))
 
   import scala.concurrent.ExecutionContext.Implicits.global
+
   val futureSource = Source.fromFuture(Future(42))
 
   val simpleSink = Sink.ignore
   val foreachSink = Sink.foreach[String](println)
   val headSink = Sink.head[Int]
-  val foldSink = Sink.fold[Int, Int](0)((a,b) => a + b)
+  val foldSink = Sink.fold[Int, Int](0)((a, b) => a + b)
 
   val mapFlow = Flow[Int].map(x => 2 * x)
   val takeFlow = Flow[Int].take(5)
@@ -54,15 +55,15 @@ object FirstPrinciples extends App {
    * > 5 chars
    */
   case class Person(firstName: String, lastName: String);
-  val persons = List(Person("first","first"), Person("second", "second"), Person("one", "onew"))
-  val personSource = Source(persons).filter(p => p.firstName.length>=5).take(2)
+  val persons = List(Person("first", "first"), Person("second", "second"), Person("one", "onew"))
+  val personSource = Source(persons).filter(p => p.firstName.length >= 5).take(2)
   val personSink = Sink.foreach(println)
   val personGraph = personSource.to(personSink)
   personGraph.run()
 
   val names = List("Alice", "Bob", "Charlie", "David", "Martin", "AkkaStreams")
   val sourceNames = Source(names)
-  val longName = Flow[String].filter(name => name.length>=5)
+  val longName = Flow[String].filter(name => name.length >= 5)
   val limitFlow = Flow[String].take(2)
   val nameSink = Sink.foreach[String](println)
   sourceNames.via(longName).via(limitFlow).to(nameSink).run()
