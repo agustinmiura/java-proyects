@@ -58,12 +58,6 @@ class TestingStreamsSpec extends TestKit(ActorSystem("TestingAkkaStreams"))
         .expectComplete()
 
     }
-    "integrate with Streams Testkit Source" in {
-      val sinkUnderTest = Sink.foreach[Int] {
-        case 13 => throw new RuntimeException("Bad luck")
-      }
-      val testSource = TestSource.probe[Int]
-    }
   }
 
 
