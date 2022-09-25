@@ -49,4 +49,5 @@ object OperatorFusion extends App {
     .map(element => { println(s"Flow B : $element"); element}).async
     .map(element => { println(s"Flow C : $element"); element}).async
     .runWith(Sink.ignore)
+
 }
