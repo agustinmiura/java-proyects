@@ -67,5 +67,5 @@ object OpenGraph extends App {
     )
 
   val f = Flow.fromSinkAndSource(Sink.foreach[String](println), Source(1 to 10))
-  
+
 }
