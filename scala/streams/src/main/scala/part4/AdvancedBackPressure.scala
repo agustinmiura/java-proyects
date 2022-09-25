@@ -5,6 +5,7 @@ import akka.stream.{ActorMaterializer, OverflowStrategy}
 import akka.stream.scaladsl.{Flow, Sink, Source}
 
 import java.time.LocalDateTime
+import scala.concurrent.duration.DurationInt
 
 object AdvancedBackPressure extends App {
 
@@ -48,4 +49,11 @@ object AdvancedBackPressure extends App {
     .map(resultingEvent => Notification(onCallEngineer, resultingEvent))
 
   eventSource.via(aggregateNoticationFlow).async.to(Sink.foreach[Notification](sendEmailSlow)).run()
+
+  val slowCounter = Source(Stream.from(1)).throttle(1, 1 second)
+  val hungrySynk = Sink.foreach[Int](println)
+
+  val extrapolator = Flow[Int].extrapolate(element => Iterator.from(element))
+  slowCounter.via(extrapolator).to(hungrySynk).run()
+
 }
