@@ -68,7 +68,4 @@ object CustomOperators extends App {
     }
   }
 
-  val batcherSink = Sink.fromGraph(new Batcher(10))
-  randomGeneratorSource.to(batcherSink).run()
-
 }
