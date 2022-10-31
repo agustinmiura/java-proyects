@@ -1,7 +1,6 @@
 package part3_highlevelserver
 
 import akka.actor.ActorSystem
-import akka.event.LoggingAdapter
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpRequest, StatusCodes}
 import akka.stream.ActorMaterializer
@@ -60,12 +59,56 @@ object DirectivesBreakdown extends App {
       }
     }
 
-  val extractRequest = path("controlEndpoint") {
-    extractRequest { httpRequest: HttpRequest =>
-      println(s"I've got the http request as $httpRequest")
+  val simplyNestedRoute = path("api" / "item") {
+    get {
       complete(StatusCodes.OK)
     }
   }
 
-  Http().bindAndHandle(queryParamExtractionRoute, "localhost", 8080)
+  val compactSimpleNestedRoute = (path("api" / "item") & get) {
+    complete(StatusCodes.OK)
+  }
+
+  val compactExtractRequestRoute = (path("controlEndpoint") & extractRequest & extractLog) { (request, log) =>
+    println(s"I've got the http request as $extractRequest")
+    println(s"I've seen log $extractLog")
+    complete(StatusCodes.OK)
+  }
+
+  val repeatedRoute = path("about") {
+    complete(StatusCodes.OK)
+  } ~ path("aboutUs") {
+    complete(StatusCodes.OK)
+  }
+
+  val dryRoute = (path("about") | path("aboutUs")) {
+    complete(StatusCodes.OK)
+  }
+
+  val blogByIdRoute = path(IntNumber) { (blogId: Int) =>
+    complete(StatusCodes.OK)
+  }
+
+  val blogByQueryParamRoute = parameter('postId.as[Int]) { (blogpostId: Int) =>
+    complete(StatusCodes.OK)
+  }
+
+  val combinedBlogByIdRoute = (path(IntNumber) | parameter('postId.as[Int])) { (blogPostId: Int) =>
+    complete(StatusCodes.OK)
+  }
+
+  val completeOkRoute = complete(StatusCodes.OK)
+
+  val failRoute = path("notSupported") {
+    failWith(new RuntimeException("Unsupported!!!"))
+  }
+
+  val routeWithRejection = path("home") {
+    reject
+  } ~ path("index") {
+    complete(StatusCodes.OK)
+  }
+
+  Http().bindAndHandle(routeWithRejection, "localhost", 8080)
+
 }
