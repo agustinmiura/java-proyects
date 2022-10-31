@@ -69,6 +69,14 @@ class RouteDSLSpec extends WordSpec with Matchers with ScalatestRouteTest with B
         methodRejections.length shouldBe 2
       }
     }
+
+    "return all the books of a given auther" in {
+      Get("/api/book/author/JRR%20Tolkien") ~> libraryRoute ~> check {
+        status shouldBe StatusCodes.OK
+        entityAs[List[Book]] shouldBe books.filter(_.author == "JRR Tolkien")
+      }
+    }
+
   }
 }
 
