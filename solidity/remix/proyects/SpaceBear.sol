@@ -6,6 +6,8 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
+import "@ganache/console.log/console.sol";
+
 contract SpaceBear is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
@@ -27,6 +29,7 @@ contract SpaceBear is ERC721, ERC721URIStorage, Ownable {
     // The following functions are overrides required by Solidity.
 
     function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+        console.log(" Logging burn ");
         super._burn(tokenId);
     }
 
