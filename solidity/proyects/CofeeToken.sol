@@ -16,17 +16,17 @@ contract CofeeToken is ERC20, AccessControl {
     }
 
     function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
-        _mint(to, amount);
+        _mint(to, amount * 10 ** decimals());
     }
 
     function buyOneCofee() public {
-        _burn(_msgSender(), 1);
-        emit CofeePurchased(_msgSender());
+        _burn(_msgSender(), 1 * 10 ** decimals());
+        emit CofeePurchased(_msgSender(), _msgSender());
     }
 
     function buyOneCofeeFrom(address account) public {
-        _spendAllowance(account, _msgSender(), 1);
-        _burn(account, 1);
+        _spendAllowance(account, _msgSender(), 1 * 10 ** decimals());
+        _burn(account, 1 * 10 ** decimals());
         emit CofeePurchased(_msgSender(), account);
     }
 }
