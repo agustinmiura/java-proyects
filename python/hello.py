@@ -19,8 +19,67 @@ and run Python code; now you just need to learn Python!
 
 import sys
 
-# Define a main() function that prints a little greeting.
+def list():
+  
+  colors = ['red', 'blue', 'green']
+  
+  print(colors[0])
+  
+  print(colors[1])
+  
+  print(len(colors))
+  
+  print('called list method')
+  
+  b = colors
+  
+  squares = [1,4,9,16]
+  sum = 0
+  for num in squares: 
+    sum += num
+  print(sum)
+  
+  list = ['larry', 'currly', 'moe']
+  if 'moe' in list:
+    print('Yay')
+    
+  for i in range(100):
+    print(i)
+    
+  a = [1,2,3,4]
+  i = 0
+  while i < len(a):
+    print(a[i])
+    i+=3
+    
+  list = ['larry', 'currly', 'moe']
+  
+  list.append('shemp')
+  print(list)
+  
+  list.insert(0, 'xxxx')
+  print(list)
+  
+  list.extend(['zzz','zzzz2'])
+  print(list)
+  
+  print(list.index('moe'))
+  
+  list.pop()
+  print(list)
+  
+  list.pop(1)
+  print(list)
+  
+  list = ['a', 'b', 'c', 'd']
+  print(list[1:-1])
+  
+  list[0:2] = 'z'
+  print(list)
+    
+
 def main():
+  list()
   # Get the name from the command line, using 'World' as a fallback.
   if len(sys.argv) >= 2:
     name = sys.argv[1]
