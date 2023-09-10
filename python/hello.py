@@ -78,8 +78,114 @@ def list():
   print(list)
     
 
+def sort_practice():
+
+  a = [4,1,12,6,5]
+  print(sorted(a))
+  
+  print(a)
+  
+  strings = ['aa', 'BB', 'zz', 'CC']
+  print(sorted(strings))
+  print(sorted(strings, reverse = True))
+  
+  strings = ['a','aa', 'aaa']
+  print(sorted(strings, key=len))
+  
+  strings = ['a', 'AA', 'b']
+  print(sorted(strings, key=str.lower))
+  
+  strings = ['xc', 'zb', 'yd', 'wa']
+  def myFn(s):
+    return s[-1]
+  
+  print(sorted(strings, key=myFn))
+  
+  from operator import itemgetter
+  
+  grade = [('Freddy', 'Frank', 3), ('Anil', 'Frank', 100), ('Anil', 'Wang', 24)]
+  print(sorted(grade, key=itemgetter(1,0)))
+  
+  print(sorted(grade, key=itemgetter(0,-1)))
+    
+  tuple = ('hi',)
+  print(tuple)
+  
+  nums = [1,2,3,4]
+  
+  squares = [ n * n for n in nums]
+  print(squares)
+  
+  strings = ['hello', 'and', 'goodbye']
+  shouting = [ s.upper() + '!!!' for s in strings]
+  print(shouting)
+  
+  nums = [2,8,1,6]
+  small = [n for n in nums if n <= 2]
+  print(small)
+  
+  fruits = ['apple', 'cherry', 'banana', 'lemon']
+  aFruits = [ s.upper() for s in fruits if 'a' in s]
+  print(aFruits)
+  
+def dictionary_practice():
+  dictionary = {}
+  dictionary['a'] = 'alpha'
+  dictionary['g'] = 'gamma'
+  dictionary['o'] = 'omega'
+  
+  print(dictionary)
+
+  print(dictionary['a'])
+  
+  #print(dictionary['z'])
+  
+  if 'z' in dictionary: 
+    print('Key')
+    
+  for key in dictionary.keys():
+    print(key)
+    
+  for value in dictionary.values():
+    print(value)
+    
+  print(dictionary.items())
+  
+  for k,v in dictionary.items():
+    print(k,'>',v)
+  
+  h = {}
+
+  var = 6
+  del var 
+  
+  list = ['a', 'b', 'c', 'd']
+  del list[0]
+  print(list)
+  
+  del list[-2]
+  print(list)
+  
+  dictionary = {'a':1, 'b':2, 'c':3}
+  del dictionary['b']
+  print(dictionary)
+  
+  f = open('foo.txt', 'rt', encoding = 'utf-8')
+  for line in f:
+    print(line, end='')
+  f.close()
+  
+  with open('foo.txt', 'rt', encoding='utf-8') as f:
+    for line in f:
+      print(line)
+  
+  with open('write_test', encoding = 'utf-8', mode='wt') as f:
+    f.write('\u20ACunicode\u20AC\n')
+  
 def main():
-  list()
+  dictionary_practice()
+  #sort_practice()
+  #list()
   # Get the name from the command line, using 'World' as a fallback.
   if len(sys.argv) >= 2:
     name = sys.argv[1]
