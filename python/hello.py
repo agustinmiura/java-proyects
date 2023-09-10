@@ -18,6 +18,7 @@ and run Python code; now you just need to learn Python!
 """
 
 import sys
+import re 
 
 def list():
   
@@ -181,9 +182,81 @@ def dictionary_practice():
   
   with open('write_test', encoding = 'utf-8', mode='wt') as f:
     f.write('\u20ACunicode\u20AC\n')
+ 
+def regex_practice(): 
+  
+  print('regex_practice')
+  
+  str = 'an example word:cat!!'
+  
+  match = re.search(r'word:\w\w\w', str)
+  if match:
+    print('found', match.group())
+  else:
+    print('not found')
+    
+  match = re.search(r'iii', 'piiig')
+  if match:
+    print('found iii:', match.group())
+    
+  match = re.search(r'igs', 'piiig')
+  if match:
+    print('igs:', match.found())
+    
+    match = re.search(r'..g', 'piiig')
+    if match:
+      print('..ig:',match.found())
+      
+    match = re.search(r'\d\d\d', 'p123g')
+    if match:
+      print('matchground:',match)
+      
+  match = re.search(r'pi+', 'piiig')
+  if match:
+    print('pi+:', match.group())
+    
+  match = re.search(r'\d\s*\d\s*\d', 'xx1 2   3xx')
+  if match:
+    print('\d\d*\d\d*\d:', match.group())
+    
+  match = re.search(r'^b\w+', 'foobar')
+  if match:
+    print('match:', match.group())
+    
+  match = re.search(r'b\w+', 'foobar')
+  if match:
+    print('match:',match.group())
+  
+  str = 'purple alice-b@google.com monkey dishwasher'
+  match = re.search(r'\w+@\w+', str)
+  if match:
+    print(match.group())
+  
+  str = 'purple alice-b@google.com monkey dishwasher'
+  match = re.search(r'([\w.-]+)@([\w.-]+)', str)
+  if match:
+    print(match.group())
+    print(match.group(1))
+    print(match.group(2))
+  
+  str = 'purple alice@google.com, blah monkey bob@abc.com blah dishwasher'
+  emails = re.findall(r'[\w\.-]+@[\w\.-]+', str)
+  for email in emails:
+    print(email)
+    
+  str = 'purple alice@google.com, blah monkey bob@abc.com blah dishwasher'
+  tuples = re.findall(r'([\w\.-]+)@([\w\.-]+)', str)
+  print(tuples)  ## [('alice', 'google.com'), ('bob', 'abc.com')]
+  for tuple in tuples:
+    print(tuple[0])  ## username
+    print(tuple[1])  ## host
+  
+  str = 'purple alice@google.com, blah monkey bob@abc.com blah dishwasher'
+  print(re.sub(r'([\w\.-]+)@([\w\.-]+)', r'\1@yo-yo-dyne.com', str))
   
 def main():
-  dictionary_practice()
+  regex_practice()
+  #dictionary_practice()
   #sort_practice()
   #list()
   # Get the name from the command line, using 'World' as a fallback.
