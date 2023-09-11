@@ -11,14 +11,38 @@ import re
 import os
 import shutil
 import subprocess
+import traceback
 
 """Copy Special exercise
 """
 
-# +++your code here+++
-# Write functions and modify main() to call them
+def zip_to(paths, zippath):
+  print('Called zip_to:', paths,'zippath:',zippath)
+  try:
+    cmd = 'zip -r ' + zippath + ' ' + paths
+    (status, output) = subprocess.getstatusoutput(cmd)
+    if status:
+      sys.stderr.write(output)
+      sys.exit(status)
+    print(output)
+  except Exception:
+    print('Error with the zip command')
+    print(traceback.format_exc())
 
-
+def copy_to(paths, dir):
+  print('Called copy_to with paths:',paths,'dir:',dir)
+  try:
+    filenames = os.listdir(paths)
+    for filename in filenames:
+      shutil.copy(filename, dir)
+  except Exception:
+    print('Error copying the files')
+    print(traceback.format_exc())
+        
+def get_special_paths(dir):
+  print('Called get_special_paths with ',dir)
+  filenames = os.listdir(dir)
+  return filenames
 
 def main():
   # This basic command line argument parsing code is provided.
@@ -37,11 +61,16 @@ def main():
   todir = ''
   if args[0] == '--todir':
     todir = args[1]
+    origin = args[1]
+    destination = args[2]
+    copy_to(origin, destination)
     del args[0:2]
 
   tozip = ''
   if args[0] == '--tozip':
     tozip = args[1]
+    paths = args[2]
+    zip_to(paths, tozip)
     del args[0:2]
 
   if not args: # A zero length array evaluates to "False".
@@ -50,6 +79,13 @@ def main():
 
   # +++your code here+++
   # Call your functions
+  if todir == '' and tozip == '':
+    dir = args[0]
+    files = get_special_paths(dir)
+    for file in files:
+      print(os.path.abspath(os.path.join(dir, file)))
 
+
+  
 if __name__ == '__main__':
   main()
