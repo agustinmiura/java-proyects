@@ -25,7 +25,21 @@ def read_urls(filename):
   Screens out duplicate urls and returns the urls sorted into
   increasing order."""
   # +++your code here+++
+  underbar_index = filename.index('_')
+  host = filename[underbar_index + 1:]
+
+  dictionary = {}
   
+  with open(filename) as f:
+    for line in f:
+      match = re.search(r'"GET (\S+)', line)
+      if match:
+        path = match.group(1)
+        if 'puzzle' in path:
+          dictionary['http://' + host + path] = 1
+  f.close()
+  return sorted(dictionary.keys())
+    
 
 def download_images(img_urls, dest_dir):
   """Given the urls already in the correct order, downloads
@@ -35,9 +49,24 @@ def download_images(img_urls, dest_dir):
   with an img tag to show each local image file.
   Creates the directory if necessary.
   """
-  # +++your code here+++
+  
+  index = open(os.path.join(dest_dir, 'index.html'), 'w')
+  index.write('<html><body>\n')
+  
+  i = 0
+  for image in img_urls:
+    local_name = 'img%d' % i
+    print('Downloading the file ', local_name)
+    urllib.request.urlretrieve(image, os.path.join(dest_dir, local_name))
 
-
+    index.write('<img src="%s">' % (local_name,))
+    
+    i += 1
+    
+    
+  index.write('\n</body></html>\n')
+  index.close()
+    
 def main():
   args = sys.argv[1:]
 
